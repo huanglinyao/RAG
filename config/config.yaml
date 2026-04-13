@@ -1,0 +1,28 @@
+# ===== 知识库与向量库配置 =====
+md5_path: "./md5.text"
+collection_name: "rag"
+persist_directory: "./chroma_db"
+
+# ===== 文本分割配置 =====
+chunk_size: 2000
+chunk_overlap: 200
+separators: ["\n\n", "\n", ".", "!", "?", " ", ""]
+max_split_char_number: 2000
+
+# ===== 检索配置 =====
+similarity_threshold: 1
+
+# ===== 聊天模型配置 =====
+chat_model_name: "xxx"
+chat_base_url: "xxx"
+chat_api_key: "xxx"
+
+# ===== 嵌入模型配置 =====
+embedding_model_name: "xxx"
+embedding_base_url: "xxx"
+embedding_api_key: "xxx"
+
+# ===== 会话配置 =====
+session_config:
+  configurable:
+    session_id: "user"
