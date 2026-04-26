@@ -10,19 +10,55 @@ separators: ["\n\n", "\n", ".", "!", "?", " ", ""]
 max_split_char_number: 2000
 
 # ===== 检索配置 =====
-similarity_threshold: 1
+similarity_threshold: 5
+
+# ===== 混合检索配置 =====
+# 混合检索权重 (0~1)，1=纯向量检索，0=纯关键词检索
+hybrid_search_alpha: 0.6
+# BM25结果数量
+bm25_k: 5
+# 最终重排序后返回的结果数量
+rerank_top_k: 3
+
+# ===== 查询改写配置 =====
+# 是否启用查询改写
+enable_query_rewriting: true
+# 查询改写方法: rewrite(改写), multi_query(多查询扩展), hyde(HyDE)
+query_rewrite_method: "rewrite"
+
+# ===== 重排序配置 =====
+# 是否启用重排序
+enable_reranking: true
+# 重排序模型: "cross_encoder"(cross-encoder模型), "llm"(LLM重排序)
+reranker_type: "cross_encoder"
+# cross-encoder模型名称
+reranker_model_name: "BAAI/bge-reranker-v2-m3"
+# 重排序时送入排序的文档数量
+reranker_retrieve_k: 10
+
+# ===== RAGAS评估配置 =====
+# 评估测试数据路径
+eval_test_data_path: "./data/eval_test_data.json"
+# 评估结果保存路径
+eval_result_path: "./data/eval_results"
+# 评估指标
+eval_metrics:
+  - "faithfulness"
+  - "answer_relevancy"
+  - "context_precision"
+  - "context_recall"
 
 # ===== 聊天模型配置 =====
-chat_model_name: "xxx"
-chat_base_url: "xxx"
-chat_api_key: "xxx"
+chat_model_name: "Qwen3-8B"
+chat_base_url: "http://10.101.15.81:8000/v1"
+chat_api_key: "EMPTY"
 
 # ===== 嵌入模型配置 =====
-embedding_model_name: "xxx"
-embedding_base_url: "xxx"
-embedding_api_key: "xxx"
+embedding_model_name: "Qwen3-Embedding-4B"
+embedding_base_url: "http://10.101.15.81:8001/v1"
+embedding_api_key: "EMPTY"
 
 # ===== 会话配置 =====
 session_config:
   configurable:
-    session_id: "user"
+    session_id: "user_001"

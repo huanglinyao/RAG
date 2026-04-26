@@ -5,10 +5,18 @@ import os
 from utils import config_loader as config
 import hashlib
 from langchain_chroma import Chroma
-# from langchain_community.embeddings import DashScopeEmbeddings
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from datetime import datetime
+
+# BM25索引重建回调（由rag.py注册）
+_bm25_rebuild_callback = None
+
+
+def register_bm25_rebuild_callback(callback):
+    """注册BM25索引重建回调，知识库更新后自动重建"""
+    global _bm25_rebuild_callback
+    _bm25_rebuild_callback = callback
 
 
 def check_md5(md5_str: str):
@@ -99,5 +107,9 @@ class KnowledgeBaseService(object):
 
         #
         save_md5(md5_hex)
+
+        # 触发BM25索引重建
+        if _bm25_rebuild_callback:
+            _bm25_rebuild_callback()
 
         return "[成功]内容已经成功载入向量库"
